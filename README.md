@@ -22,9 +22,7 @@
 #
 
 ### Last releases:
-- ### 1
-- ### 2
-- ### 3
+- ### [v1.0.0](https://github.com/M-it-2/PFLAC/releases/tag/1.0.0)
 
 #
 
