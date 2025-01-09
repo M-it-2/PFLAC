@@ -1,6 +1,6 @@
 namespace PFLAC
 {
-    partial class Form1
+    partial class PFLAC
     {
         /// <summary>
         /// Required designer variable.
@@ -28,8 +28,11 @@ namespace PFLAC
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PFLAC));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.GradeLbl = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.cat3RdBtn = new System.Windows.Forms.RadioButton();
             this.cat2RdBtn = new System.Windows.Forms.RadioButton();
@@ -59,8 +62,6 @@ namespace PFLAC
             this.saveFileBtn = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.GradeLbl = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -109,6 +110,23 @@ namespace PFLAC
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Обрахунок";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // GradeLbl
+            // 
+            this.GradeLbl.AutoSize = true;
+            this.GradeLbl.Location = new System.Drawing.Point(706, 376);
+            this.GradeLbl.Name = "GradeLbl";
+            this.GradeLbl.Size = new System.Drawing.Size(0, 25);
+            this.GradeLbl.TabIndex = 23;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(535, 376);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(165, 25);
+            this.label4.TabIndex = 22;
+            this.label4.Text = "Загальна оцінка:";
             // 
             // groupBox3
             // 
@@ -397,31 +415,15 @@ namespace PFLAC
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(535, 376);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(165, 25);
-            this.label4.TabIndex = 22;
-            this.label4.Text = "Загальна оцінка:";
-            // 
-            // GradeLbl
-            // 
-            this.GradeLbl.AutoSize = true;
-            this.GradeLbl.Location = new System.Drawing.Point(706, 376);
-            this.GradeLbl.Name = "GradeLbl";
-            this.GradeLbl.Size = new System.Drawing.Size(0, 25);
-            this.GradeLbl.TabIndex = 23;
-            // 
-            // Form1
+            // PFLAC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1005, 682);
             this.Controls.Add(this.tabControl1);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "PFLAC";
+            this.Text = "PFLAC";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);

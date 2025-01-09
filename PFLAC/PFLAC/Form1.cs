@@ -14,7 +14,7 @@ using Google.Protobuf.Compiler;
 
 namespace PFLAC
 {
-    public partial class Form1 : Form
+    public partial class PFLAC : Form
     {
     private List<MilitaryPerson> persons = new List<MilitaryPerson>();
     private FileReader fileReader = new FileReader();
@@ -23,7 +23,7 @@ namespace PFLAC
 
     private int currentIndex = 0;
 
-    public Form1()
+    public PFLAC()
     {
       InitializeComponent();
     }
