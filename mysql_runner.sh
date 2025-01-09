@@ -42,4 +42,4 @@ sudo systemctl restart mysql
 echo -e "\033[45mMySQL is configured to bind to the IP: $LOCAL_IP\033[m"
 
 # added chmod for dev.sh
-chmod +x ./dev.sh
+sudo chmod +x ./dev.sh
