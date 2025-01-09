@@ -4,7 +4,6 @@
 ![](https://img.shields.io/github/commit-activity/t/M-it-2/PFLAC)
 ![](https://img.shields.io/github/forks/M-it-2/PFLAC)
 ![](https://img.shields.io/github/languages/top/M-it-2/PFLAC)
-![](https://img.shields.io/docker/automated/M-it-2/PFLAC)
 ![](https://img.shields.io/github/downloads/M-it-2/PFLAC/total)
 ![](https://img.shields.io/github/languages/code-size/M-it-2/PFLAC)
 ![](https://img.shields.io/website?url=https://pflac-api.onrender.com/)
