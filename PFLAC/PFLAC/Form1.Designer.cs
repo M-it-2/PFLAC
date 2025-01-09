@@ -30,6 +30,10 @@ namespace PFLAC
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.cat3RdBtn = new System.Windows.Forms.RadioButton();
+            this.cat2RdBtn = new System.Windows.Forms.RadioButton();
+            this.cat1RdBtn = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.oficerRdBtn = new System.Windows.Forms.RadioButton();
             this.soldierRdBtn = new System.Windows.Forms.RadioButton();
@@ -37,14 +41,14 @@ namespace PFLAC
             this.femaleRdBtn = new System.Windows.Forms.RadioButton();
             this.maleRdBtn = new System.Windows.Forms.RadioButton();
             this.loadFileBtn = new System.Windows.Forms.Button();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.norm3TxtBox = new System.Windows.Forms.TextBox();
+            this.norm2TxtBox = new System.Windows.Forms.TextBox();
+            this.norm1TxtBox = new System.Windows.Forms.TextBox();
             this.norm3Lbl = new System.Windows.Forms.Label();
             this.norm2Lbl = new System.Windows.Forms.Label();
             this.norm1Lbl = new System.Windows.Forms.Label();
             this.calcGradeBtn = new System.Windows.Forms.Button();
-            this.getNormsBtn = new System.Windows.Forms.Button();
+            this.GetNormsBtn = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.ageTxtBox = new System.Windows.Forms.TextBox();
@@ -56,8 +60,10 @@ namespace PFLAC
             this.label3 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.GradeLbl = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -71,23 +77,25 @@ namespace PFLAC
             this.tabControl1.Location = new System.Drawing.Point(-3, -1);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(882, 596);
+            this.tabControl1.Size = new System.Drawing.Size(1003, 684);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.GradeLbl);
             this.tabPage1.Controls.Add(this.label4);
+            this.tabPage1.Controls.Add(this.groupBox3);
             this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Controls.Add(this.loadFileBtn);
-            this.tabPage1.Controls.Add(this.textBox3);
-            this.tabPage1.Controls.Add(this.textBox2);
-            this.tabPage1.Controls.Add(this.textBox1);
+            this.tabPage1.Controls.Add(this.norm3TxtBox);
+            this.tabPage1.Controls.Add(this.norm2TxtBox);
+            this.tabPage1.Controls.Add(this.norm1TxtBox);
             this.tabPage1.Controls.Add(this.norm3Lbl);
             this.tabPage1.Controls.Add(this.norm2Lbl);
             this.tabPage1.Controls.Add(this.norm1Lbl);
             this.tabPage1.Controls.Add(this.calcGradeBtn);
-            this.tabPage1.Controls.Add(this.getNormsBtn);
+            this.tabPage1.Controls.Add(this.GetNormsBtn);
             this.tabPage1.Controls.Add(this.label2);
             this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.ageTxtBox);
@@ -97,16 +105,62 @@ namespace PFLAC
             this.tabPage1.Location = new System.Drawing.Point(4, 34);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(874, 558);
+            this.tabPage1.Size = new System.Drawing.Size(995, 646);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Обрахунок";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.cat3RdBtn);
+            this.groupBox3.Controls.Add(this.cat2RdBtn);
+            this.groupBox3.Controls.Add(this.cat1RdBtn);
+            this.groupBox3.Location = new System.Drawing.Point(235, 247);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(193, 134);
+            this.groupBox3.TabIndex = 21;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Вибір категорії";
+            // 
+            // cat3RdBtn
+            // 
+            this.cat3RdBtn.AutoSize = true;
+            this.cat3RdBtn.Checked = true;
+            this.cat3RdBtn.Location = new System.Drawing.Point(13, 93);
+            this.cat3RdBtn.Name = "cat3RdBtn";
+            this.cat3RdBtn.Size = new System.Drawing.Size(90, 29);
+            this.cat3RdBtn.TabIndex = 8;
+            this.cat3RdBtn.TabStop = true;
+            this.cat3RdBtn.Text = "Третя";
+            this.cat3RdBtn.UseVisualStyleBackColor = true;
+            // 
+            // cat2RdBtn
+            // 
+            this.cat2RdBtn.AutoSize = true;
+            this.cat2RdBtn.Location = new System.Drawing.Point(13, 58);
+            this.cat2RdBtn.Name = "cat2RdBtn";
+            this.cat2RdBtn.Size = new System.Drawing.Size(88, 29);
+            this.cat2RdBtn.TabIndex = 7;
+            this.cat2RdBtn.TabStop = true;
+            this.cat2RdBtn.Text = "Друга";
+            this.cat2RdBtn.UseVisualStyleBackColor = true;
+            // 
+            // cat1RdBtn
+            // 
+            this.cat1RdBtn.AutoSize = true;
+            this.cat1RdBtn.Location = new System.Drawing.Point(13, 23);
+            this.cat1RdBtn.Name = "cat1RdBtn";
+            this.cat1RdBtn.Size = new System.Drawing.Size(95, 29);
+            this.cat1RdBtn.TabIndex = 6;
+            this.cat1RdBtn.TabStop = true;
+            this.cat1RdBtn.Text = "Перша";
+            this.cat1RdBtn.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.oficerRdBtn);
             this.groupBox2.Controls.Add(this.soldierRdBtn);
-            this.groupBox2.Location = new System.Drawing.Point(248, 247);
+            this.groupBox2.Location = new System.Drawing.Point(11, 376);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(193, 123);
             this.groupBox2.TabIndex = 20;
@@ -141,7 +195,7 @@ namespace PFLAC
             this.groupBox1.Controls.Add(this.maleRdBtn);
             this.groupBox1.Location = new System.Drawing.Point(11, 247);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(185, 123);
+            this.groupBox1.Size = new System.Drawing.Size(193, 123);
             this.groupBox1.TabIndex = 19;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Вибір статі";
@@ -172,35 +226,35 @@ namespace PFLAC
             // 
             this.loadFileBtn.Location = new System.Drawing.Point(16, 18);
             this.loadFileBtn.Name = "loadFileBtn";
-            this.loadFileBtn.Size = new System.Drawing.Size(851, 45);
+            this.loadFileBtn.Size = new System.Drawing.Size(973, 45);
             this.loadFileBtn.TabIndex = 18;
             this.loadFileBtn.Text = "Завантажити таблицю з файлу (excel)";
             this.loadFileBtn.UseVisualStyleBackColor = true;
             this.loadFileBtn.Click += new System.EventHandler(this.LoadFileBtn_Click);
             // 
-            // textBox3
+            // norm3TxtBox
             // 
-            this.textBox3.Location = new System.Drawing.Point(540, 267);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(105, 30);
-            this.textBox3.TabIndex = 17;
-            this.textBox3.Visible = false;
+            this.norm3TxtBox.Location = new System.Drawing.Point(540, 267);
+            this.norm3TxtBox.Name = "norm3TxtBox";
+            this.norm3TxtBox.Size = new System.Drawing.Size(105, 30);
+            this.norm3TxtBox.TabIndex = 17;
+            this.norm3TxtBox.Visible = false;
             // 
-            // textBox2
+            // norm2TxtBox
             // 
-            this.textBox2.Location = new System.Drawing.Point(540, 193);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(105, 30);
-            this.textBox2.TabIndex = 16;
-            this.textBox2.Visible = false;
+            this.norm2TxtBox.Location = new System.Drawing.Point(540, 193);
+            this.norm2TxtBox.Name = "norm2TxtBox";
+            this.norm2TxtBox.Size = new System.Drawing.Size(105, 30);
+            this.norm2TxtBox.TabIndex = 16;
+            this.norm2TxtBox.Visible = false;
             // 
-            // textBox1
+            // norm1TxtBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(540, 119);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(105, 30);
-            this.textBox1.TabIndex = 15;
-            this.textBox1.Visible = false;
+            this.norm1TxtBox.Location = new System.Drawing.Point(540, 119);
+            this.norm1TxtBox.Name = "norm1TxtBox";
+            this.norm1TxtBox.Size = new System.Drawing.Size(105, 30);
+            this.norm1TxtBox.TabIndex = 15;
+            this.norm1TxtBox.Visible = false;
             // 
             // norm3Lbl
             // 
@@ -234,23 +288,23 @@ namespace PFLAC
             // 
             // calcGradeBtn
             // 
-            this.calcGradeBtn.Location = new System.Drawing.Point(540, 400);
+            this.calcGradeBtn.Location = new System.Drawing.Point(588, 521);
             this.calcGradeBtn.Name = "calcGradeBtn";
             this.calcGradeBtn.Size = new System.Drawing.Size(227, 81);
             this.calcGradeBtn.TabIndex = 11;
             this.calcGradeBtn.Text = "Обрахувати оцінку";
             this.calcGradeBtn.UseVisualStyleBackColor = true;
-            this.calcGradeBtn.Visible = false;
+            this.calcGradeBtn.Click += new System.EventHandler(this.СalcGradeBtn_Click);
             // 
-            // getNormsBtn
+            // GetNormsBtn
             // 
-            this.getNormsBtn.Location = new System.Drawing.Point(102, 400);
-            this.getNormsBtn.Name = "getNormsBtn";
-            this.getNormsBtn.Size = new System.Drawing.Size(227, 81);
-            this.getNormsBtn.TabIndex = 10;
-            this.getNormsBtn.Text = "Визначити нормативи";
-            this.getNormsBtn.UseVisualStyleBackColor = true;
-            this.getNormsBtn.Click += new System.EventHandler(this.getNormsBtn_Click);
+            this.GetNormsBtn.Location = new System.Drawing.Point(58, 521);
+            this.GetNormsBtn.Name = "GetNormsBtn";
+            this.GetNormsBtn.Size = new System.Drawing.Size(227, 81);
+            this.GetNormsBtn.TabIndex = 10;
+            this.GetNormsBtn.Text = "Визначити нормативи";
+            this.GetNormsBtn.UseVisualStyleBackColor = true;
+            this.GetNormsBtn.Click += new System.EventHandler(this.GetNormsBtn_Click);
             // 
             // label2
             // 
@@ -286,7 +340,7 @@ namespace PFLAC
             // 
             // nextBtn
             // 
-            this.nextBtn.Location = new System.Drawing.Point(821, 515);
+            this.nextBtn.Location = new System.Drawing.Point(943, 599);
             this.nextBtn.Name = "nextBtn";
             this.nextBtn.Size = new System.Drawing.Size(46, 41);
             this.nextBtn.TabIndex = 1;
@@ -296,7 +350,7 @@ namespace PFLAC
             // 
             // previousBtn
             // 
-            this.previousBtn.Location = new System.Drawing.Point(11, 512);
+            this.previousBtn.Location = new System.Drawing.Point(6, 599);
             this.previousBtn.Name = "previousBtn";
             this.previousBtn.Size = new System.Drawing.Size(46, 41);
             this.previousBtn.TabIndex = 0;
@@ -312,14 +366,14 @@ namespace PFLAC
             this.tabPage2.Location = new System.Drawing.Point(4, 34);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(874, 558);
+            this.tabPage2.Size = new System.Drawing.Size(995, 646);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Таблиця результатів";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // saveFileBtn
             // 
-            this.saveFileBtn.Location = new System.Drawing.Point(11, 497);
+            this.saveFileBtn.Location = new System.Drawing.Point(11, 592);
             this.saveFileBtn.Name = "saveFileBtn";
             this.saveFileBtn.Size = new System.Drawing.Size(856, 45);
             this.saveFileBtn.TabIndex = 19;
@@ -339,24 +393,32 @@ namespace PFLAC
             // 
             this.richTextBox1.Location = new System.Drawing.Point(11, 45);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(856, 434);
+            this.richTextBox1.Size = new System.Drawing.Size(856, 541);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(265, 176);
+            this.label4.Location = new System.Drawing.Point(535, 376);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(64, 25);
-            this.label4.TabIndex = 21;
-            this.label4.Text = "label4";
+            this.label4.Size = new System.Drawing.Size(165, 25);
+            this.label4.TabIndex = 22;
+            this.label4.Text = "Загальна оцінка:";
+            // 
+            // GradeLbl
+            // 
+            this.GradeLbl.AutoSize = true;
+            this.GradeLbl.Location = new System.Drawing.Point(706, 376);
+            this.GradeLbl.Name = "GradeLbl";
+            this.GradeLbl.Size = new System.Drawing.Size(0, 25);
+            this.GradeLbl.TabIndex = 23;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(880, 597);
+            this.ClientSize = new System.Drawing.Size(1005, 682);
             this.Controls.Add(this.tabControl1);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -364,6 +426,8 @@ namespace PFLAC
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -389,11 +453,11 @@ namespace PFLAC
     private System.Windows.Forms.Label label1;
     private System.Windows.Forms.TextBox ageTxtBox;
     private System.Windows.Forms.TextBox fullNameTxtBox;
-    private System.Windows.Forms.Button getNormsBtn;
+    private System.Windows.Forms.Button GetNormsBtn;
     private System.Windows.Forms.Button calcGradeBtn;
-    private System.Windows.Forms.TextBox textBox3;
-    private System.Windows.Forms.TextBox textBox2;
-    private System.Windows.Forms.TextBox textBox1;
+    private System.Windows.Forms.TextBox norm3TxtBox;
+    private System.Windows.Forms.TextBox norm2TxtBox;
+    private System.Windows.Forms.TextBox norm1TxtBox;
     private System.Windows.Forms.Label norm3Lbl;
     private System.Windows.Forms.Label norm2Lbl;
     private System.Windows.Forms.Label norm1Lbl;
@@ -403,6 +467,11 @@ namespace PFLAC
     private System.Windows.Forms.Button saveFileBtn;
     private System.Windows.Forms.GroupBox groupBox2;
     private System.Windows.Forms.GroupBox groupBox1;
+    private System.Windows.Forms.GroupBox groupBox3;
+    private System.Windows.Forms.RadioButton cat1RdBtn;
+    private System.Windows.Forms.RadioButton cat3RdBtn;
+    private System.Windows.Forms.RadioButton cat2RdBtn;
+    private System.Windows.Forms.Label GradeLbl;
     private System.Windows.Forms.Label label4;
   }
 }
