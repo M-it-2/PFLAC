@@ -28,6 +28,11 @@
 
 #
 
+### Changelog
+- ### [check changelog](./CHANGELOG.md)
+
+#
+
 ### PFLAC_API writted with fastapi:
 - ### [website](https://pflac-api.onrender.com/)
 - ### [repository](https://github.com/fxhxyz4/pflac_api)
@@ -49,4 +54,4 @@
 
 #
 
-### License: [MIT](./LICENSE.md).
+### License: [MIT LICENSE](./LICENSE.md) & [SECURITY](./SECURITY.md).
