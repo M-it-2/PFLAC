@@ -42,7 +42,7 @@
 ### local development
 ### ***only for developments with access to mysql hosting***
 ### install pma, mysql (for linux)
-### 1. ```sudo cmod +x ./mysql_runner.sh```
+### 1. ```sudo chmod +x ./mysql_runner.sh```
 ### 2. ```./mysql_runner.sh```
 ### 3. ```./dev.sh```
 
