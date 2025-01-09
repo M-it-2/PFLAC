@@ -28,8 +28,9 @@
 
 #
 
-### Changelog
+### Changelog & conduct
 - ### [check changelog](./CHANGELOG.md)
+- ### [check code_of_conduct](./CODE_OF_CONDUCT.md)
 
 #
 
