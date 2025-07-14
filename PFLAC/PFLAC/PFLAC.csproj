@@ -287,7 +287,6 @@
     <Compile Include="GradeResponce.cs" />
     <Compile Include="MilitaryPerson.cs" />
     <Compile Include="Modules\Messages.cs" />
-    <Compile Include="OutputHandler.cs" />
     <Compile Include="PhysicalRecord.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

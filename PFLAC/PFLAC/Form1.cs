@@ -18,7 +18,7 @@ namespace PFLAC
     {
     private List<MilitaryPerson> persons = new List<MilitaryPerson>();
     private FileReader fileReader = new FileReader();
-    private OutputHandler outputHandler = new OutputHandler();
+    //private OutputHandler outputHandler = new OutputHandler();
     private DataBaseHandler dataHandler = new DataBaseHandler();
 
     private int currentIndex = 0;
@@ -167,6 +167,7 @@ namespace PFLAC
 
             VisibleTrue();
           }));
+
           return;
         }
 
@@ -195,6 +196,7 @@ namespace PFLAC
         GetNormsBtn.Enabled = true;
       }
     }
+
     private void VisibleTrue()
     {
       norm1Lbl.Visible = true;
@@ -220,23 +222,19 @@ namespace PFLAC
     {
       try
       {
-        if (double.TryParse(norm1TxtBox.Text.Trim(), out double norm1))
+        bool valid1 = double.TryParse(norm1TxtBox.Text.Trim(), out double norm1);
+        bool valid2 = double.TryParse(norm2TxtBox.Text.Trim(), out double norm2);
+        bool valid3 = double.TryParse(norm3TxtBox.Text.Trim(), out double norm3);
+
+        if (!valid1 || !valid2 || !valid3)
         {
-          persons[currentIndex].Results.Add(norm1);
-        }
-        if (double.TryParse(norm2TxtBox.Text.Trim(), out double norm2))
-        {
-          persons[currentIndex].Results.Add(norm2);
-        }
-        if (double.TryParse(norm3TxtBox.Text.Trim(), out double norm3))
-        {
-          persons[currentIndex].Results.Add(norm3);
+          Messages.Error("Введите корректные числовые значения для всех трёх нормативов!");
+          return;
         }
 
-        else
-        {
-          Messages.Error("Введите корректные числовые значения!");
-        }
+        // Clear previous results (prevent duplicate Add if button clicked again)
+        persons[currentIndex].Results.Clear();
+        persons[currentIndex].Results.AddRange(new[] { norm1, norm2, norm3 });
 
         await DataBaseHandler.GetScoresAsync(persons[currentIndex]);
         await DataBaseHandler.GetGradeTabAsync(persons[currentIndex]);
