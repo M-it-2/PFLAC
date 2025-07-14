@@ -1,17 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Text.Json;
-using Google.Protobuf.Compiler;
-using System.Text.Json.Serialization;
 
 namespace PFLAC
 {
   class DataBaseHandler
   {
     private static readonly HttpClient _httpClient = new HttpClient();
+
     private static int AdjustAge(int age, string gender)
     {
       int result = 0;
@@ -70,6 +68,7 @@ namespace PFLAC
 
       try
       {
+        _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("PFLACApp/1.0");
         HttpResponseMessage response = await _httpClient.GetAsync(apiUrl);
 
         response.EnsureSuccessStatusCode();
@@ -80,6 +79,7 @@ namespace PFLAC
         var records = JsonSerializer.Deserialize<List<PhysicalRecord>>(responseBody);
 
         Dictionary<int, string> result = new Dictionary<int, string>();
+
         foreach (var record in records)
         {
           result[record.ExerciseNumber] = record.ExerciseName;
@@ -105,6 +105,7 @@ namespace PFLAC
 
         try
         {
+          _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("PFLACApp/1.0");
           HttpResponseMessage response = await _httpClient.GetAsync(url);
 
           response.EnsureSuccessStatusCode();
@@ -130,6 +131,7 @@ namespace PFLAC
 
       try
       {
+        _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("PFLACApp/1.0");
         HttpResponseMessage response = await _httpClient.GetAsync(apiUrl);
 
         response.EnsureSuccessStatusCode();
