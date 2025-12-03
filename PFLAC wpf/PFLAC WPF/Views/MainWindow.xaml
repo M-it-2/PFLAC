@@ -1,0 +1,193 @@
+﻿<Window x:Class="PFLAC_WPF.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="PFLAC — розрахунок фізичної підготовки"
+        Height="550"
+        Width="900"
+        WindowStartupLocation="CenterScreen"
+        Background="#17212B"
+        Foreground="#EAF2FF"
+        FontFamily="Segoe UI">
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="BgMain" Color="#17212B"/>
+        <SolidColorBrush x:Key="BgPanel" Color="#1F2A3A"/>
+        <SolidColorBrush x:Key="Accent" Color="#3390EC"/>
+        <SolidColorBrush x:Key="AccentLight" Color="#4EA3FF"/>
+        <SolidColorBrush x:Key="BorderBrush" Color="#263445"/>
+        <SolidColorBrush x:Key="TextPrimary" Color="#EAF2FF"/>
+        <SolidColorBrush x:Key="TextSecondary" Color="#9BA7B8"/>
+
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource Accent}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="10,4"/>
+            <Setter Property="Margin" Value="0,0,8,0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource AccentLight}"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="#253246"/>
+                    <Setter Property="Foreground" Value="#576473"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="#141D29"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="4,2"/>
+            <Setter Property="Margin" Value="0,0,0,6"/>
+        </Style>
+
+        <Style TargetType="GroupBox">
+            <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
+            <Setter Property="Margin" Value="0,0,10,10"/>
+            <Setter Property="Padding" Value="4"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="{StaticResource BgPanel}"/>
+        </Style>
+
+        <Style TargetType="RadioButton">
+            <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+            <Setter Property="Margin" Value="0,0,10,0"/>
+        </Style>
+
+        <Style x:Key="LabelText" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
+            <Setter Property="Margin" Value="0,0,0,2"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="{StaticResource BgMain}" Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" Margin="0,0,0,10">
+            <Button Content="Завантажити з Excel"
+                    Command="{Binding LoadFromExcelCommand}"
+                    DockPanel.Dock="Left"/>
+
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                <Button Content="&lt; Попередній"
+                        Command="{Binding PreviousCommand}"/>
+                <TextBlock Text="{Binding CurrentIndex}"
+                           VerticalAlignment="Center"
+                           Margin="0,0,8,0"
+                           Foreground="{StaticResource TextSecondary}"/>
+                <Button Content="Наступний &gt;"
+                        Command="{Binding NextCommand}"/>
+            </StackPanel>
+        </DockPanel>
+
+        <GroupBox Grid.Row="1" Grid.Column="0"
+                  Header="Дані військовослужбовця">
+            <StackPanel Margin="8">
+                <TextBlock Style="{StaticResource LabelText}" Text="ПІБ:"/>
+                <TextBox Text="{Binding FullName, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Style="{StaticResource LabelText}" Text="Вік:"/>
+                <TextBox Width="80"
+                         Text="{Binding AgeText, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Style="{StaticResource LabelText}" Text="Стать:"/>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                    <RadioButton Content="Чоловік"
+                                 IsChecked="{Binding IsMale}"
+                                 GroupName="Gender"/>
+                    <RadioButton Content="Жінка"
+                                 IsChecked="{Binding IsFemale}"
+                                 GroupName="Gender"/>
+                </StackPanel>
+
+                <TextBlock Style="{StaticResource LabelText}" Text="Статус:"/>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                    <RadioButton Content="Офіцер"
+                                 IsChecked="{Binding IsOfficer}"
+                                 GroupName="Status"/>
+                    <RadioButton Content="Контрактник"
+                                 IsChecked="{Binding IsContract}"
+                                 GroupName="Status"/>
+                </StackPanel>
+
+                <TextBlock Style="{StaticResource LabelText}" Text="Категорія:"/>
+                <StackPanel Orientation="Horizontal">
+                    <RadioButton Content="1"
+                                 IsChecked="{Binding IsCategory1}"
+                                 GroupName="Category"/>
+                    <RadioButton Content="2"
+                                 IsChecked="{Binding IsCategory2}"
+                                 GroupName="Category"/>
+                    <RadioButton Content="3"
+                                 IsChecked="{Binding IsCategory3}"
+                                 GroupName="Category"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Grid.Row="1" Grid.Column="1"
+                  Header="Нормативи та результати">
+            <StackPanel Margin="8">
+                <Button Content="Отримати нормативи з БД"
+                        Command="{Binding LoadNormsCommand}"
+                        HorizontalAlignment="Stretch"
+                        Margin="0,0,0,10"/>
+
+                <StackPanel Margin="0,0,0,10">
+                    <TextBlock Text="{Binding Exercise1Name}"
+                               Foreground="{StaticResource TextSecondary}"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,2"/>
+                    <TextBox Text="{Binding Norm1Text, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Text="{Binding Exercise2Name}"
+                               Foreground="{StaticResource TextSecondary}"
+                               FontWeight="SemiBold"
+                               Margin="0,6,0,2"/>
+                    <TextBox Text="{Binding Norm2Text, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Text="{Binding Exercise3Name}"
+                               Foreground="{StaticResource TextSecondary}"
+                               FontWeight="SemiBold"
+                               Margin="0,6,0,2"/>
+                    <TextBox Text="{Binding Norm3Text, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+
+                <Button Content="Розрахувати підсумкову оцінку"
+                        Command="{Binding CalculateGradeCommand}"
+                        HorizontalAlignment="Stretch"/>
+
+                <TextBlock Text="{Binding GradeText}"
+                           FontSize="28"
+                           FontWeight="Bold"
+                           Foreground="{StaticResource AccentLight}"
+                           HorizontalAlignment="Center"
+                           Margin="0,12,0,0"/>
+            </StackPanel>
+        </GroupBox>
+
+        <StatusBar Grid.Row="2" Grid.ColumnSpan="2"
+                   Background="#141D29"
+                   Foreground="{StaticResource TextSecondary}">
+            <StatusBarItem>
+                <TextBlock Text="PFLAC WPF версія"/>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>
