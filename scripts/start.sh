@@ -5,16 +5,93 @@ echo "requirements: sudo, docker"
 echo ""
 
 ### ---------------------------
-### 1. Ввод данных для .env
+### Root check
 ### ---------------------------
-read -p "Введите NODE_ENV (prod/dev): " NODE_ENV
-read -p "Введите DB_USER: " DB_USER
-read -p "Введите DB_NAME: " DB_NAME
-read -p "Введите DB_PASS: " DB_PASS
-read -p "Введите DB_PORT (например 3306 или 3307, если локальный MySQL занят): " DB_PORT
+
+if [ "$EUID" -ne 0 ]; then
+  echo "[ERROR] This script must be run with sudo"
+  echo "Run it like this:"
+
+  echo "  sudo $0"
+  exit 1
+fi
 
 ### ---------------------------
-### 2. Создаём .env
+### Check Docker
+### ---------------------------
+if ! command -v docker &> /dev/null
+then
+    echo "[INFO] Docker not found. Installing..."
+
+    if [ -f /etc/debian_version ]; then
+        # Debian / Ubuntu / Linux Mint
+        sudo apt update
+        sudo apt install -y apt-transport-https ca-certificates curl gnupg lsb-release
+
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+        echo \
+        "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+        $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+        sudo apt update
+        sudo apt install -y docker-ce docker-ce-cli containerd.io
+
+    elif [ -f /etc/arch-release ]; then
+        # Arch Linux / Manjaro
+        sudo pacman -Sy docker --noconfirm --needed
+
+    elif [ -f /etc/fedora-release ]; then
+        # Fedora
+        sudo dnf -y install dnf-plugins-core
+        sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+
+        sudo dnf -y install docker-ce docker-ce-cli containerd.io
+
+    elif [ -f /etc/centos-release ] || [ -f /etc/redhat-release ]; then
+        # CentOS / RHEL
+        sudo yum install -y yum-utils
+        sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+        sudo yum install -y docker-ce docker-ce-cli containerd.io
+
+    else
+        echo "[ERROR] Unsupported OS. Please install Docker manually."
+        exit 1
+    fi
+
+    sudo systemctl enable docker >/dev/null 2>&1
+    sudo systemctl start docker >/dev/null 2>&1
+
+    if systemctl is-active --quiet docker; then
+        echo "[OK] Docker installed and started."
+    else
+        echo "[ERROR] Docker service failed to start!"
+        echo "Try running: sudo systemctl status docker"
+
+        exit 1
+    fi
+
+else
+    echo "[OK] Docker already installed."
+fi
+
+echo ""
+echo ""
+
+### ---------------------------
+### Create .env file
+### ---------------------------
+read -p "Type NODE_ENV (prod/dev): " NODE_ENV
+read -p "Type DB_PORT (3306): " DB_PORT
+read -p "Type DB_USER: " DB_USER
+read -p "Type DB_NAME: " DB_NAME
+read -p "Type DB_PASS: " DB_PASS
+
+echo ""
+echo ""
+
+### ---------------------------
+### Created .env
 ### ---------------------------
 cd ..
 
@@ -31,31 +108,47 @@ REDIS_KEY=app_state
 REDIS_CONNECTION=redis://redis_local:6379
 EOF
 
-echo "[OK] Файл .env создан:"
+echo "[OK] File .env created:"
 cat .env
+
+echo ""
+echo ""
+
 echo "------------------------------"
+echo ""
 
 ### ---------------------------
-### 3. Клонируем API
+### Clone API
 ### ---------------------------
 if [ ! -d "pflac_api" ]; then
-    echo "[INFO] Клонируем API..."
+    echo "[INFO] clone API..."
+    echo ""
+
+    echo ""
     git clone https://github.com/fxhxyz4/pflac_api.git
 else
-    echo "[INFO] API уже клонирован."
+    echo "[INFO] API coned."
+    echo ""
+
+    echo ""
 fi
 
 ### ---------------------------
-### 4. Создаём сеть Docker
+### Create Docker network
 ### ---------------------------
 docker network create pflac_network >/dev/null 2>&1 || true
-echo "[OK] Docker сеть pflac_network готова."
+echo "[OK] Docker pflac_network 🟢🟢🟢"
+
+echo ""
+echo ""
 
 ### ---------------------------
-### 5. Запуск Redis (Docker)
+### Run Redis (Docker)
 ### ---------------------------
-echo "[INFO] Запуск Redis..."
+echo "[INFO] Run Redis..."
 docker rm -f redis_local >/dev/null 2>&1 || true
+
+echo ""
 
 docker run -d \
   --name redis_local \
@@ -63,19 +156,31 @@ docker run -d \
   -p 6379:6379 \
   redis:latest
 
-echo "[OK] Redis запущен: redis_local:6379"
+echo "[OK] Redis running: redis_local:6379"
+echo ""
 
 ### ---------------------------
-### 6. Запуск MySQL (Docker)
+### Run MySQL (Docker)
 ### ---------------------------
-echo "[INFO] Запуск MySQL..."
+read -p "Stop local MySQL for running this script ? (type: 1 or 0): " MYSQL_QUESTION_1
+
+if [ "$MYSQL_QUESTION_1" = "1" ]; then
+  echo "[INFO] Stopping local MySQL..."
+
+  sudo systemctl stop mysql 2>/dev/null || true
+  sudo systemctl stop mariadb 2>/dev/null || true
+else
+  echo "[INFO] Skipping local MySQL stop"
+fi
+
+echo "[INFO] Run MySQL..."
 docker rm -f mysql_local >/dev/null 2>&1 || true
 
 cd pflac_api
 SCHEMA_FILE="./db/scheme.sql"
 
 if [ ! -f "$SCHEMA_FILE" ]; then
-    echo "[ERROR] SQL-файл $SCHEMA_FILE не найден!"
+    echo "[ERROR] SQL-file $SCHEMA_FILE not found!"
     exit 1
 fi
 
@@ -89,31 +194,64 @@ docker run -d \
   -p $DB_PORT:3306 \
   mysql:8 --disable-log-bin
 
-echo "[INFO] Ожидаем запуска MySQL..."
-until docker exec mysql_local mysql -u$DB_USER -p$DB_PASS -e "SELECT 1;" $DB_NAME >/dev/null 2>&1; do
-    echo "MySQL ещё не готов... ждём 2 сек"
-    sleep 2
+echo "[INFO] Waiting MySQL..."
+
+MAX_TRIES=30
+TRY=1
+
+while true; do
+  if ! docker ps --format "{{.Names}}" | grep -q "^mysql_local$"; then
+    echo "[ERROR] MySQL container is not running!"
+    docker logs mysql_local --tail 50 2>/dev/null || true
+
+    exit 1
+  fi
+
+  if docker exec mysql_local mysql -u"$DB_USER" -p"$DB_PASS" -e "SELECT 1;" "$DB_NAME" >/dev/null 2>&1; then
+    echo "[OK] MySQL running!"
+    echo ""
+
+    break
+  fi
+
+  echo "[INFO] MySQL waiting... ($TRY/$MAX_TRIES)"
+  sleep 2
+
+  if [ $TRY -ge $MAX_TRIES ]; then
+    echo "[ERROR] MySQL did not become ready in time!"
+    docker logs mysql_local --tail 50 2>/dev/null || true
+
+    exit 1
+  fi
+
+  TRY=$((TRY+1))
 done
-echo "[OK] MySQL готов!"
+
 
 ### ---------------------------
-### 6.1 Импорт схемы
+### Import schema
 ### ---------------------------
-echo "[INFO] Импортируем SQL-схему..."
+echo "[INFO] Import SQL-schema..."
 docker exec -i mysql_local mysql -u$DB_USER -p$DB_PASS $DB_NAME < $SCHEMA_FILE
 if [ $? -eq 0 ]; then
-    echo "[OK] Схема успешно импортирована!"
+    echo "[OK] Schema imported!"
+    echo ""
+
+    echo ""
 else
-    echo "[ERROR] Ошибка при импорте схемы!"
+    echo "[ERROR] Error with schema!"
     exit 1
 fi
 
 cd ..
 
 ### ---------------------------
-### 7. Запуск PHPMyAdmin (Docker)
+### Run PHPMyAdmin (Docker)
 ### ---------------------------
-echo "[INFO] Запуск PHPMyAdmin..."
+echo "[INFO] Run PHPMyAdmin..."
+echo ""
+
+echo ""
 docker rm -f phpmyadmin_local >/dev/null 2>&1 || true
 
 docker run -d \
@@ -127,16 +265,15 @@ docker run -d \
 
 echo ""
 echo "[OK] PHPMyAdmin: http://localhost:8080"
-echo "!!! В поле 'Сервер' phpMyAdmin используйте: mysql_local"
 echo ""
 
 ### ---------------------------
-### 8. Запуск локального API (Docker)
+### Run API local (Docker)
 ### ---------------------------
-echo "[INFO] Строим образ API..."
+echo "[INFO] Create API..."
 docker build -t pflac_api_image ./pflac_api
 
-echo "[INFO] Запуск API..."
+echo "[INFO] Run API..."
 docker rm -f pflac_api_local >/dev/null 2>&1 || true
 
 docker run -d \
@@ -146,5 +283,7 @@ docker run -d \
   -p 8000:8000 \
   pflac_api_image
 
-echo "[OK] API запущен: http://localhost:8000"
-echo "[INFO] Проверить статус API: http://localhost:8000/status/"
+echo "[OK] API running: http://localhost:8000"
+echo "[INFO] Check API status: http://localhost:8000/status/"
+
+echo "[INFO] In field 'Server' phpMyAdmin use: mysql_local"
