@@ -1,2 +1,17 @@
 # Normalize line endings to LF for files that Git detects as text
-*   text=auto
+* text=auto
+
+# Only LF
+*.js text eol=lf
+*.ts text eol=lf
+*.sh text eol=lf
+*.json text eol=lf
+
+# CRLF for bat/cmd
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary files (don't change line endings)
+*.png binary
+*.jpg binary
+*.exe binary
