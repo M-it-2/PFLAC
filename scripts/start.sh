@@ -176,6 +176,9 @@ fi
 echo "[INFO] Run MySQL..."
 docker rm -f mysql_local >/dev/null 2>&1 || true
 
+cd..
+git clone https://github.com/fxhxyz4/pflac_api.git
+
 cd pflac_api
 SCHEMA_FILE="./db/scheme.sql"
 
