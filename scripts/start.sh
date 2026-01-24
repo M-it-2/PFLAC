@@ -7,7 +7,6 @@ echo ""
 ### ---------------------------
 ### Root check
 ### ---------------------------
-
 if [ "$EUID" -ne 0 ]; then
   echo "[ERROR] This script must be run with sudo"
   echo "Run it like this:"
@@ -24,7 +23,7 @@ then
     echo "[INFO] Docker not found. Installing..."
 
     if [ -f /etc/debian_version ]; then
-        # Debian / Ubuntu / Linux Mint
+        # Debian / Ubuntu
         sudo apt update
         sudo apt install -y apt-transport-https ca-certificates curl gnupg lsb-release
 
@@ -37,7 +36,7 @@ then
         sudo apt install -y docker-ce docker-ce-cli containerd.io
 
     elif [ -f /etc/arch-release ]; then
-        # Arch Linux / Manjaro
+        # Arch Linux
         sudo pacman -Sy docker --noconfirm --needed
 
     elif [ -f /etc/fedora-release ]; then
@@ -176,7 +175,7 @@ fi
 echo "[INFO] Run MySQL..."
 docker rm -f mysql_local >/dev/null 2>&1 || true
 
-cd..
+cd ..
 git clone https://github.com/fxhxyz4/pflac_api.git
 
 cd pflac_api
