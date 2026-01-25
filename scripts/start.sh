@@ -126,7 +126,7 @@ if [ ! -d "pflac_api" ]; then
     echo ""
     git clone https://github.com/fxhxyz4/pflac_api.git
 else
-    echo "[INFO] API coned."
+    echo "[INFO] API cloned."
     echo ""
 
     echo ""
