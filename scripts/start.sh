@@ -37,7 +37,9 @@ then
 
     elif [ -f /etc/arch-release ]; then
         # Arch Linux
-        sudo pacman -Sy docker --noconfirm --needed
+       sudo pacman -S --needed containerd runc docker
+       sudo systemctl enable --now containerd
+       sudo systemctl enable --now docker.socket
 
     elif [ -f /etc/fedora-release ]; then
         # Fedora
