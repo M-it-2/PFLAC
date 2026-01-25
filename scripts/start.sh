@@ -38,8 +38,7 @@ then
     elif [ -f /etc/arch-release ]; then
         # Arch Linux
        sudo pacman -S --needed containerd runc docker
-       sudo systemctl enable --now docker.socket
-
+       
     elif [ -f /etc/fedora-release ]; then
         # Fedora
         sudo dnf -y install dnf-plugins-core
@@ -61,6 +60,9 @@ then
 
     sudo systemctl enable docker >/dev/null 2>&1
     sudo systemctl start docker >/dev/null 2>&1
+
+    sudo systemctl enable docker.socket >/dev/null 2>&1
+    sudo systemctl start docker.socket >/dev/null 2>&1
 
     if systemctl is-active --quiet docker; then
         echo "[OK] Docker installed and started."
