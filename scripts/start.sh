@@ -86,6 +86,8 @@ read -p "Type DB_USER: " DB_USER
 read -p "Type DB_NAME: " DB_NAME
 read -p "Type DB_PASS: " DB_PASS
 
+PROJECT_ROOT=$(pwd)
+
 echo ""
 echo ""
 
@@ -108,7 +110,7 @@ REDIS_CONNECTION=redis://redis_local:6379
 EOF
 
 echo "[OK] File .env created:"
-cat .env
+cat "$PROJECT_ROOT/.env"
 
 echo ""
 echo ""
@@ -119,17 +121,12 @@ echo ""
 ### ---------------------------
 ### Clone API
 ### ---------------------------
-if [ ! -d "pflac_api" ]; then
-    echo "[INFO] clone API..."
-    echo ""
-
-    echo ""
-    git clone https://github.com/fxhxyz4/pflac_api.git
+API_DIR="$PROJECT_ROOT/pflac_api"
+if [ ! -d "$API_DIR" ]; then
+    echo "[INFO] Cloning API..."
+    git clone https://github.com/fxhxyz4/pflac_api.git "$API_DIR"
 else
-    echo "[INFO] API cloned."
-    echo ""
-
-    echo ""
+    echo "[INFO] API folder already exists. Skipping clone."
 fi
 
 ### ---------------------------
@@ -175,11 +172,7 @@ fi
 echo "[INFO] Run MySQL..."
 docker rm -f mysql_local >/dev/null 2>&1 || true
 
-cd ..
-git clone https://github.com/fxhxyz4/pflac_api.git
-
-cd pflac_api
-SCHEMA_FILE="./db/scheme.sql"
+SCHEMA_FILE="$API_DIR/db/schema.sql"
 
 if [ ! -f "$SCHEMA_FILE" ]; then
     echo "[ERROR] SQL-file $SCHEMA_FILE not found!"
