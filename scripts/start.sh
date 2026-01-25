@@ -37,8 +37,8 @@ then
 
     elif [ -f /etc/arch-release ]; then
         # Arch Linux
-       sudo pacman -S --needed containerd runc docker
-       
+        sudo pacman -Sy --needed --noconfirm docker containerd runc
+        
     elif [ -f /etc/fedora-release ]; then
         # Fedora
         sudo dnf -y install dnf-plugins-core
