@@ -266,19 +266,24 @@ echo ""
 ### Run API local (Docker)
 ### ---------------------------
 echo "[INFO] Create API..."
-docker build -t pflac_api_image ./pflac_api
+docker build -t pflac_api_image "$API_DIR"
 
 echo "[INFO] Run API..."
 docker rm -f pflac_api_local >/dev/null 2>&1 || true
 
+# Проверка наличия .env
+if [ ! -f "$PROJECT_ROOT/.env" ]; then
+    echo "[ERROR] .env file not found at $PROJECT_ROOT/.env"
+    exit 1
+fi
+
 docker run -d \
   --name pflac_api_local \
   --network pflac_network \
-  --env-file .env \
+  --env-file "$PROJECT_ROOT/.env" \
   -p 8000:8000 \
   pflac_api_image
 
-echo "[OK] API running: http://localhost:8000"
+echo "[OK] API running at http://localhost:8000"
 echo "[INFO] Check API status: http://localhost:8000/status/"
-
 echo "[INFO] In field 'Server' phpMyAdmin use: mysql_local"
