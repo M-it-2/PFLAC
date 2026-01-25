@@ -272,11 +272,8 @@ docker build -t pflac_api_image "$API_DIR"
 echo "[INFO] Run API..."
 docker rm -f pflac_api_local >/dev/null 2>&1 || true
 
-# Проверка наличия .env
-if [ ! -f "$PROJECT_ROOT/.env" ]; then
-    echo "[ERROR] .env file not found at $PROJECT_ROOT/.env"
-    exit 1
-fi
+cd ..
+cd pflac_api
 
 docker run -d \
   --name pflac_api_local \
