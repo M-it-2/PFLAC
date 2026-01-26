@@ -152,7 +152,7 @@ fi
 echo "[INFO] Run MySQL..."
 docker rm -f mysql_local >/dev/null 2>&1 || true
 
-SCHEMA_FILE="$API_DIR/db/scheme.sql"
+SCHEMA_FILE="$API_DIR/db/schema.sql"
 
 if [ ! -f "$SCHEMA_FILE" ]; then
     echo "[ERROR] SQL-file $SCHEMA_FILE not found!"
