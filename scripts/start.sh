@@ -272,8 +272,6 @@ docker build -t pflac_api_image "$API_DIR"
 echo "[INFO] Run API..."
 docker rm -f pflac_api_local >/dev/null 2>&1 || true
 
-cd pflac/pflac_api
-
 docker run -d \
   --name pflac_api_local \
   --network pflac_network \
