@@ -97,8 +97,6 @@ echo ""
 ### ---------------------------
 ### Created .env
 ### ---------------------------
-cd ..
-
 cat <<EOF > .env
 NODE_ENV=$NODE_ENV
 DB_USER=$DB_USER
