@@ -104,10 +104,6 @@ DB_NAME=$DB_NAME
 DB_PASS=$DB_PASS
 DB_PORT=$DB_PORT
 DB_SERVER=mysql_local
-
-# REDIS CONFIG
-REDIS_KEY=app_state
-REDIS_CONNECTION=redis://redis_local:6379
 EOF
 
 echo "[OK] File .env created:"
@@ -137,23 +133,6 @@ docker network create pflac_network >/dev/null 2>&1 || true
 echo "[OK] Docker pflac_network 🟢🟢🟢"
 
 echo ""
-echo ""
-
-### ---------------------------
-### Run Redis (Docker)
-### ---------------------------
-echo "[INFO] Run Redis..."
-docker rm -f redis_local >/dev/null 2>&1 || true
-
-echo ""
-
-docker run -d \
-  --name redis_local \
-  --network pflac_network \
-  -p 6379:6379 \
-  redis:latest
-
-echo "[OK] Redis running: redis_local:6379"
 echo ""
 
 ### ---------------------------
