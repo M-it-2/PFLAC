@@ -160,7 +160,6 @@ echo ===================================
 pause
 exit /b 0
 
-
 :require_admin
 net session >nul 2>&1
 if %errorlevel% neq 0 (
@@ -169,7 +168,6 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 exit /b 0
-
 
 :ensure_git
 where git >nul 2>&1
@@ -180,7 +178,6 @@ if %errorlevel% neq 0 (
 )
 echo [OK] Git found.
 exit /b 0
-
 
 :ensure_wsl
 echo [INFO] Checking WSL...
@@ -207,7 +204,6 @@ if %errorlevel% neq 0 (
 
 echo [OK] WSL checked.
 exit /b 0
-
 
 :ensure_docker
 echo [INFO] Checking Docker Desktop...
