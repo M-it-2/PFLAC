@@ -7,7 +7,6 @@ echo ""
 ### ---------------------------
 ### Root check
 ### ---------------------------
-
 if [ "$EUID" -ne 0 ]; then
   echo "[ERROR] This script must be run with sudo"
   echo "Run it like this:"
@@ -24,7 +23,7 @@ then
     echo "[INFO] Docker not found. Installing..."
 
     if [ -f /etc/debian_version ]; then
-        # Debian / Ubuntu / Linux Mint
+        # Debian / Ubuntu
         sudo apt update
         sudo apt install -y apt-transport-https ca-certificates curl gnupg lsb-release
 
@@ -37,9 +36,9 @@ then
         sudo apt install -y docker-ce docker-ce-cli containerd.io
 
     elif [ -f /etc/arch-release ]; then
-        # Arch Linux / Manjaro
-        sudo pacman -Sy docker --noconfirm --needed
-
+        # Arch Linux
+        sudo pacman -Sy --needed --noconfirm docker containerd runc
+        
     elif [ -f /etc/fedora-release ]; then
         # Fedora
         sudo dnf -y install dnf-plugins-core
@@ -61,6 +60,9 @@ then
 
     sudo systemctl enable docker >/dev/null 2>&1
     sudo systemctl start docker >/dev/null 2>&1
+
+    sudo systemctl enable docker.socket >/dev/null 2>&1
+    sudo systemctl start docker.socket >/dev/null 2>&1
 
     if systemctl is-active --quiet docker; then
         echo "[OK] Docker installed and started."
@@ -87,14 +89,14 @@ read -p "Type DB_USER: " DB_USER
 read -p "Type DB_NAME: " DB_NAME
 read -p "Type DB_PASS: " DB_PASS
 
+PROJECT_ROOT=$(pwd)
+
 echo ""
 echo ""
 
 ### ---------------------------
 ### Created .env
 ### ---------------------------
-cd ..
-
 cat <<EOF > .env
 NODE_ENV=$NODE_ENV
 DB_USER=$DB_USER
@@ -102,14 +104,10 @@ DB_NAME=$DB_NAME
 DB_PASS=$DB_PASS
 DB_PORT=$DB_PORT
 DB_SERVER=mysql_local
-
-# REDIS CONFIG
-REDIS_KEY=app_state
-REDIS_CONNECTION=redis://redis_local:6379
 EOF
 
 echo "[OK] File .env created:"
-cat .env
+cat "$PROJECT_ROOT/.env"
 
 echo ""
 echo ""
@@ -120,17 +118,12 @@ echo ""
 ### ---------------------------
 ### Clone API
 ### ---------------------------
-if [ ! -d "pflac_api" ]; then
-    echo "[INFO] clone API..."
-    echo ""
-
-    echo ""
-    git clone https://github.com/fxhxyz4/pflac_api.git
+API_DIR="$PROJECT_ROOT/pflac_api"
+if [ ! -d "$API_DIR" ]; then
+    echo "[INFO] Cloning API..."
+    git clone https://github.com/fxhxyz4/pflac_api.git "$API_DIR"
 else
-    echo "[INFO] API coned."
-    echo ""
-
-    echo ""
+    echo "[INFO] API folder already exists. Skipping clone."
 fi
 
 ### ---------------------------
@@ -140,23 +133,6 @@ docker network create pflac_network >/dev/null 2>&1 || true
 echo "[OK] Docker pflac_network 🟢🟢🟢"
 
 echo ""
-echo ""
-
-### ---------------------------
-### Run Redis (Docker)
-### ---------------------------
-echo "[INFO] Run Redis..."
-docker rm -f redis_local >/dev/null 2>&1 || true
-
-echo ""
-
-docker run -d \
-  --name redis_local \
-  --network pflac_network \
-  -p 6379:6379 \
-  redis:latest
-
-echo "[OK] Redis running: redis_local:6379"
 echo ""
 
 ### ---------------------------
@@ -176,8 +152,7 @@ fi
 echo "[INFO] Run MySQL..."
 docker rm -f mysql_local >/dev/null 2>&1 || true
 
-cd pflac_api
-SCHEMA_FILE="./db/scheme.sql"
+SCHEMA_FILE="$API_DIR/db/schema.sql"
 
 if [ ! -f "$SCHEMA_FILE" ]; then
     echo "[ERROR] SQL-file $SCHEMA_FILE not found!"
@@ -271,7 +246,7 @@ echo ""
 ### Run API local (Docker)
 ### ---------------------------
 echo "[INFO] Create API..."
-docker build -t pflac_api_image ./pflac_api
+docker build -t pflac_api_image "$API_DIR"
 
 echo "[INFO] Run API..."
 docker rm -f pflac_api_local >/dev/null 2>&1 || true
@@ -279,11 +254,10 @@ docker rm -f pflac_api_local >/dev/null 2>&1 || true
 docker run -d \
   --name pflac_api_local \
   --network pflac_network \
-  --env-file .env \
+  --env-file "$PROJECT_ROOT/.env" \
   -p 8000:8000 \
   pflac_api_image
 
-echo "[OK] API running: http://localhost:8000"
+echo "[OK] API running at http://localhost:8000"
 echo "[INFO] Check API status: http://localhost:8000/status/"
-
 echo "[INFO] In field 'Server' phpMyAdmin use: mysql_local"
