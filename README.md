@@ -9,18 +9,6 @@
 ![](https://img.shields.io/website?url=https://pflac-api.onrender.com/)
 ![](https://img.shields.io/github/license/M-it-2/PFLAC)
 
-## Platforms supported:
-
-| 🖥️ **Windows**   | 🐧 **Linux**              | 🍎 **OSX**         |
-| ---------------- | ------------------------- | ------------------ |
-| ✅ **11**         | 🛠️ **Ubuntu** *In development*       | ❌ *TODO*          |
-| ✅ **10**         |                           |                   |
-| ✅ **8.1**        |                           |                    |
-| ✅ **8**          |                           |                    |
-| ✅ **7**          |                           |                    |
-
-#
-
 ### Last releases:
 - ### [v1.0.0](https://github.com/M-it-2/PFLAC/releases/tag/1.0.0)
 
@@ -43,7 +31,7 @@
 ### install pma, mysql (for linux)
 ### 1. ```sudo chmod +x ./mysql_runner.sh```
 ### 2. ```./mysql_runner.sh```
-### 3. ```./dev.sh```
+### 3. ```./start.sh```
 
 #
 
